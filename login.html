@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- SDK DE FIREBASE -->
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <!-- SDK DE FIREBASE -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+    *{
+        text-decoration: none !important;
+    }      
+
+        body {
+            font-family: 'Poppins', sans-serif;
+      
+        }
+
+        .google-login-button {
+            padding: 10px;
+            border-radius: 20px;
+            border: none;
+            border: solid 1px #000000;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="width: 80%;  margin: 0 auto;" class="d-flex justify-content-center">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
+            <div class="col  p-4 justify-content-center d-flex">
+                <div style="margin-top: 100px !important;" class="mt-5 text-center">
+                    <div>
+                        <img class="mb-4" width="140" src="./assets/images/candelaria.svg" alt="">
+                    </div>
+                    <h1 style="font-weight: bold;">Inicia Seccion</h1>
+                    <p class="mt-4">Inicia sesión para subir tus reportes sociales. <br> Convierte a
+                        <strong>Candelaria</strong> en un Sitio Seguro.
+                    </p>
+                    <button id="login" class="btn mx-auto google-login-button mt-3">
+                        <img width="23" src="./assets/images/png-transparent-google-logo-google-text-trademark-logo.png"
+                            alt="Google Logo" class="google-logo rounded-circle">
+                        &nbsp;Iniciar sesión con Google
+                    </button>
+                   
+                </div>
+            </div>
+            <div class="col">
+                <img width="500" class="img-fluid" src="./assets/images/login.svg" alt="">
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module" src="./config/login.js"></script>
+    <div id="ultimo"></div>
+</body>
+
+</html>

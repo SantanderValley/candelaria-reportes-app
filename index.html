@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes Candelaria</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./assets/css/users.css">
+    <link rel="stylesheet" href="./assets/css/navbar.css">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-extended.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="assets/css/icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Incluye jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- SDK DE FIREBASE -->
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <!-- SDK DE FIREBASE -->
+</head>
+<script>
+    function mostrarAlerta() {
+        alert("No hay suficiente conexión a Internet. Por favor, revisa tu conexión y vuelve a cargar la página.");
+    }
+
+    function verificarConexion() {
+        var conexion = navigator.onLine;
+
+        if (!conexion) {
+            // Si no hay conexión, mostrar la alerta y verificar nuevamente después de un intervalo
+            mostrarAlerta();
+            setTimeout(verificarConexion, 2000); // Verificar cada 2 segundos (puedes ajustar el intervalo según tus necesidades)
+        }
+    }
+
+    // Verificar la conexión al cargar la página
+    window.addEventListener('load', verificarConexion);
+
+    // Verificar la conexión cuando hay cambios en la conexión
+    window.addEventListener('online', function () {
+        // Cuando la conexión se restablece, cerrar la alerta si está abierta
+        if (alert) {
+            alert.close();
+        }
+    });
+
+    window.addEventListener('offline', verificarConexion);
+</script>
+
+<style>
+    /* Agrega un estilo para el fondo borroso */
+    .blur-background {
+        filter: blur(5px);
+        /* Ajusta el valor del desenfoque según tus preferencias */
+        transition: filter 0.5s ease;
+        /* Agrega una transición suave para el efecto */
+    }
+
+    /* Estilo para el mensaje de carga */
+    .loading-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+        display: none;
+        /* Oculta el mensaje por defecto */
+    }
+</style>
+<!-- Alerta de Bootstrap -->
+<!-- <div style="z-index: 200;" class="position-sticky">
+    <div class="alert alert-success m-4 ccustom position-absolute top-0 end-0" role="alert" id="uploadAlert">
+        ¡Se ha subido correctamente!
+    </div>
+</div> -->
+
+<body style="background-color: #ffffff!important;">
+    <!-- Pantalla mensaje de exito al subir el reporte -->
+    <div style="display: none;" role="alert" id="uploadAlert" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div style="background-color: #0c1522da !important;
+          backdrop-filter: blur(5px) !important;" class="modal-content">
+                <div class="modal-body d-flex text-center justify-content-center">
+                    <div class="container d-flex align-items-center justify-content-center vh-80">
+                        <div class="centrado text-center p-4" style="color: white; border-radius: 8px;">
+                            <!-- Contenido de tu div centrado -->
+                            <img width="200px" class="img-fluid" src="./assets/images/2undraw_post_online_re_1b82.svg"
+                                alt="">
+                            <h5 style="color: aliceblue !important;" class="mt-4">Gracias por compartir tu reporte.</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pantalla mensaje de exito al subir el reporte -->
+
+    <!-- 1. Navbar -->
+    <nav class="mt-5 ccustom p-2 navbar border   navbar-expand-lg" data-bs-theme="dark">
+        <div class="container-fluid">
+            <div class="d-flex d-flex justify-content-center align-items-center me-5">
+                <div>
+                    <img class="rounded-circle userPhoto cimg dropdown-toggle" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="user">
+                </div>
+                <div>
+                    <span class="fs-5  bold fw-bold text-dark navbar-brand ms-3 text-wrap" href="#">SDRMC</span>
+                </div>
+            </div>
+            <button class="navbar-toggler border border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class=""><i style="font-size: 27px;" class="fa-solid fa-bars-staggered"></i></span>
+            </button>
+            <div style="flex-grow: 0 !important;" class="collapse navbar-collapse m-2" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-dark">
+                    <li class="nav-item ms-2">
+                        <a class="li- nav-link active" aria-current="page" href="javascript:;">Inicio</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="li- nav-link" href="#registros">Mis registros</a>
+                    </li>
+
+                    <li class="nav-item ms-2">
+                        <a type="button" id="logout" class=" li- nav-link" href="javascript:void(0);">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- 1. Navbar -->
+
+    <!-- 2. Nombre de usuario -->
+    <div class="mt-4 mb-2 p-2 ccustom fw-bold">
+        <!-- <h1 style="color: #000000;" class="fw-bold" id="usuario1"></h1> -->
+    </div>
+    <!-- 2. Nombre de usuario -->
+
+    <!-- 3. Descripción -->
+    <div style="border-radius: 20px;" class="ccustom  mb-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
+            <div class="col mt-4 text-start">
+                <h1 style="color: #000000;" class="fw-bold" id="usuario1"></h1>
+
+                <p style="color: #000000 !important; font-weight: 400;" class="h2">¡Convierte a Candelaria en un Sitio
+                    Seguro!</p>
+                <p style="width: 93%;" class="mt-4 text-dark">Ayúdanos a ser una sociedad mejor, comparte los reporte de
+                    nuestra
+                    comunidad y ayúdanos a crecer. Desde tu <strong> celu o desde cualquier dispositivo </strong> sube
+                    un reporte que nos quieras compartir. </p>
+            </div>
+            <div class="col mb-4 d-flex justify-content-center">
+                <img width="250" class="img" src="./assets/images/candelaria.svg" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- 3. Descripción -->
+
+    <!-- 3. Menu de opciones -->
+    <div style="margin-top: -25px;" class="page-wrapper ccustom">
+        <div class="page-content">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
+                <div class="col">
+                    <div id="customCard" style="background: #dcfce7;" class="card radius-10">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <p style="color: #141e2c; font-size: 20px; font-weight: 800;" href=""
+                                        class="txt-card-custom mb-0">Subir Imagen</p>
+                                    <a style="color: #141e2c !important;" href="#ultimo" id="mostrarFormulario1"
+                                        class="text-blue-500 hover:underline">Click
+                                        aqui</a>
+                                    <br>
+                                </div>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
+                                    <i class="fa-solid fa-image"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="customCard" style="background: #93c5fd;" class="card radius-10">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <p style="color: #141e2c ; font-size: 20px; font-weight: 800;" href=""
+                                        class="txt-card-custom mb-0">Subir Video</p>
+                                    <a style="color: #141e2c !important;" href="#ultimo" id="mostrarFormulario2"
+                                        class="text-blue-500 hover:underline">Click aqui</a>
+                                    <br>
+                                </div>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
+                                    <i class="fa-solid fa-video"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="customCard" style="background: #fef9c3;" class="card radius-10">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <p style="color: #141e2c ; font-size: 20px; font-weight: 800;" href=""
+                                        class="txt-card-custom mb-0">Escribenos</p>
+                                    <a style="color: #141e2c !important;" href="#texto-form" id="mostrarFormulario3"
+                                        class="text-blue-500 hover:underline">Click aqui</a>
+                                    <br>
+                                </div>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
+                                    <i class="fa-solid fa-comment"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 3. Menu de opciones -->
+
+    <br>
+
+
+    <!-- 4. Formularios -->
+    <div id="ultimo" style="background-color: #ffffff;" class="ccomponen ccustom">
+        <div id="opciones" class="alert text-dark text-center role=" alert">
+            Selecciona una opcion para publicar tu reporte social
+        </div>
+
+        <div id="formulario1" style="">
+            <div style="background-color: white !important;" class="ccomponen p-4 border">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
+                    <div class="col mb-4 d-flex align-items-center"><img width="400" class="img-fluid"
+                            src="./assets/images/1.svg" alt=""></div>
+                    <div class="col mb-4">
+                        <form method="POST" enctype="multipart/form-data">
+                            <h5 style="color: #141e2c; font-weight: bold;">Sube una imagen para enviar tu reporte.
+                            </h5>
+                            <p class="text-dark">Seleccione un archivo para cargarlo desde su computadora o dispositivo.
+                            </p>
+                            <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*" multiple
+                                required>
+
+                            <!-- Agrega los nuevos campos de cédula y número de teléfono -->
+                            <input placeholder="¡Escribenos aquí!" type="text" class="form-control mt-3"
+                                id="descripcion" name="descripcion" required>
+
+                            <input placeholder="Número de cédula" type="text" class="form-control mt-3" id="cedula"
+                                name="cedula" required>
+                            <input placeholder="Número de teléfono" type="text" class="form-control mt-3" id="telefono"
+                                name="telefono" required>
+
+                            <button type="submit" class="btn boton mt-3">Publicar Imagen</button>
+                        </form>
+
+                        <div class="mt-4" style="width: 100%;">
+                            <div style="background-color: #dddddd !important;" class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                    style="width: 0%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <form method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="imagen">Subir una imagen:</label>
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción de la imagen:</label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Publicar Imagen</button>
+                </form> -->
+                </div>
+            </div>
+        </div>
+
+        <div style="display: none;" id="formulario2">
+            <div style="background-color: white !important;" class="ccomponen p-4 border">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
+                    <div class="col mb-4 d-flex align-items-center"><img width="400" class="img-fluid"
+                            src="./assets/images/2.svg" alt=""></div>
+                    <div class="col mb-4">
+                        <form id="video" action="" method="POST" enctype="multipart/form-data">
+                            <h5 style="color: #141e2c; font-weight: bold;">Sube un video para enviar tu reporte.</h5>
+                            <p class="text-dark">Seleccione un archivo para cargarlo desde su computadora o dispositivo.
+                            </p>
+                            <input type="file" class="form-control mt-3" id="videoFile" name="video" accept="video/*"
+                                required>
+                            <input placeholder="¡Escribenos aqui!" type="text" class="form-control mt-3"
+                                id="descripcion-video" name="descripcion" required>
+
+                            <!-- Nuevo: Campo para la cedula -->
+                            <input placeholder="Cedula" type="text" class="form-control mt-3" id="cedula_video"
+                                name="cedula" required>
+
+                            <!-- Nuevo: Campo para el numero de telefono -->
+                            <input placeholder="Numero de Telefono" type="text" class="form-control mt-3"
+                                id="telefono_video" name="telefono" required>
+                            <button type="submit" class="btn boton mt-3">Publicar Video</button>
+                        </form>
+
+                        <div class="mt-4" style="width: 100%;">
+                            <div style="background-color: #0c1522 !important;" class="progress">
+                                <div class="progress-bar1 progress-bar-striped progress-bar-animated bg-info"
+                                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                    style="width: 0%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: none;" id="formulario3">
+            <div style="background-color: white !important;" class="ccomponen p-4 border">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
+                    <div class="col mb-4 d-flex align-items-center"><img width="320" class="img-fluid"
+                            src="./assets/images/3.svg" alt=""></div>
+                    <div class="col mb-4">
+                        <form id="texto-form" action="" method="POST">
+                            <h5 style="color: #141e2c; font-weight: bold;">Sube tu publicacion para enviar tu reporte.
+                            </h5>
+                            <p class="text-dark">Escribenos tu reporte social
+                            </p>
+                            <div class="form-group">
+                                <input placeholder="¡Escribenos aqui!" type="text" class="form-control" id="texto"
+                                    name="texto" required>
+                            </div>
+                            <!-- Nuevo: Campo para la cedula -->
+                            <div class="form-group">
+                                <input placeholder="Cedula" type="text" class="form-control" id="cedula_texto"
+                                    name="cedula" required>
+                            </div>
+                            <!-- Nuevo: Campo para el número de teléfono -->
+                            <div class="form-group">
+                                <input placeholder="Numero de Telefono" type="text" class="form-control"
+                                    id="telefono_texto" name="telefono" required    >
+                            </div>
+                            <button type="submit" class="btn boton mt-2">Publicar Texto</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 4. Formularios -->
+
+    <br>
+    <br>
+
+    <style>
+        @media (max-width:767px) {
+
+            .page-footer {
+                bottom: 26px !important;
+            }
+
+        }
+    </style>
+
+
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
+        </button> -->
+
+    <!-- 5. Descripción -->
+    <div style="border-radius: 20px;" class="ccustom border  p-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
+            <div class="col mt-4 text-start">
+                <p style="color: #141e2c !important; font-weight: bold;" class="h2">¡Genial compartiste tu reporte con
+                    nosotros!</p>
+                <p style="width: 93%;" class="mt-4 text-dark">Contribuyamos juntos al progreso de nuestra comunidad.
+                    Comparte informes sobre nuestro entorno y únete a nuestro esfuerzo por crecer. Desde tu dispositivo
+                    móvil o cualquier otra herramienta, sube un reporte que desees compartir para fortalecer nuestra
+                    sociedad. </p>
+            </div>
+            <div class="col mb-4 d-flex justify-content-center">
+                <img width="700" class="img-fluid" src="./assets/images/4.svg" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- 5. Descripción -->
+    <br>
+
+    <!-- 6. Cards -->
+    <div style="background-color: #ffffff;" class="ccomponen ccustom mt-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
+            <div id="registros" class="col mb-4">
+                <div class="div-info">
+                    <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" href="javascript:;">
+                        <h2 class="hover-text" style="color: #141e2c !important; font-weight: 900;">Mis Registros</h2>
+                    </a>
+                </div>
+            </div>
+            <div class="col mb-4">
+                <div class="div-info1">
+                    <a href="javascript:;">
+                        <h2 class="hover-text" style="color: #141e2c !important; font-weight: 900;">Soporte Tecnico</h2>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 6. Cards -->
+
+    <!-- Modales -->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div style="background-color: #0c1522da !important;
+            backdrop-filter: blur(5px) !important;" class="modal-content">
+                <div class="modal-header">
+                    <h1 style="color: aliceblue !important;" class="modal-title fs-5" id="exampleModalLabel">Mis
+                        registros</h1>
+                    <butto style="background-color: white !important;" type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mostrarimg">
+                        <h3 style="color: white !important;">Publicaciones</h3>
+                        <br>
+                        <ul id="lista-de-datos" class="card-list">
+                            <!-- Los elementos "li" se agregarán aquí -->
+                        </ul>
+                    </div>
+
+                    <br>
+
+                    <div class="mostrarvideo">
+                        <br>
+                        <ul id="lista-de-datos-video" class="card-list">
+
+                            <!-- Los elementos "li" se agregarán aquí -->
+                        </ul>
+                    </div>
+
+                    <div class="mostrartexto">
+                        <br>
+                        <ul id="lista-de-datos-texto" class="card-list">
+
+                            <!-- Los elementos "li" se agregarán aquí -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modales -->
+
+    <script>
+        document.getElementById("mostrarFormulario1").addEventListener("click", function () {
+            document.getElementById("formulario1").style.display = "block";
+            document.getElementById("formulario2").style.display = "none";
+            document.getElementById("formulario3").style.display = "none";
+            document.getElementById("opciones").style.display = "none";
+        });
+
+        document.getElementById("mostrarFormulario2").addEventListener("click", function () {
+            document.getElementById("formulario1").style.display = "none";
+            document.getElementById("formulario2").style.display = "block";
+            document.getElementById("formulario3").style.display = "none";
+            document.getElementById("opciones").style.display = "none";
+
+        });
+
+        document.getElementById("mostrarFormulario3").addEventListener("click", function () {
+            document.getElementById("formulario1").style.display = "none";
+            document.getElementById("formulario2").style.display = "none";
+            document.getElementById("formulario3").style.display = "block";
+            document.getElementById("opciones").style.display = "none";
+
+        });
+    </script>
+    <footer class="page-footer p-3 mt-4 mb-4">
+        <p class="mb-0">Copyright © 2023. All right reserved.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module" src="./config/config.js"></script>
+</body>
+
+</html>

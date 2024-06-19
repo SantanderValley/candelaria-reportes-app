@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--favicon-->
+	<link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+	<link href="assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+	<link href="assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<!-- loader-->
+	<link href="assets/css/pace.min.css" rel="stylesheet" />
+	<script src="assets/js/pace.min.js"></script>
+	<link rel="shortcut icon" href="./assets/images/logo.svg" type="image/x-icon">
+	<!-- Bootstrap CSS -->
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="assets/css/bootstrap-extended.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+	<link href="assets/css/app.css" rel="stylesheet">
+	<link href="assets/css/icons.css" rel="stylesheet">
+	<!-- Theme Style CSS -->
+	<link rel="stylesheet" href="assets/css/dark-theme.css" />
+	<link rel="stylesheet" href="assets/css/semi-dark.css" />
+	<link rel="stylesheet" href="assets/css/header-colors.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<title>Admin</title>
+</head>
+
+<body>
+	<!--wrapper-->
+	<div class="wrapper">
+		<!--sidebar wrapper -->
+		<div class="sidebar-wrapper" data-simplebar="true">
+			<div class="sidebar-header mb-5">
+				<div>
+					<img src="assets/images/logo.svg" class="logo-icon" alt="logo icon">
+				</div>
+				<div>
+					<p style="font-size: 18px; line-height: 17px !important; color: #141e2c !important;" class="logo-text">Sistema de <b>reportes</b></p>
+				</div>
+				<div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
+				</div>
+			</div>
+			<!--navigation-->
+			<ul class="metismenu" id="menu">
+				<li>
+					<a href="javascript:;">
+						<div class="parent-icon"><i class='bx bx-home-circle'></i>
+						</div>
+						<div class="menu-title">Dashboard</div>
+					</a>
+				</li>
+				<!-- <li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-category"></i>
+						</div>
+						<div class="menu-title">Reportes</div>
+					</a>
+					<ul>
+						<li> <a href="app-emailbox.html"><i class="bx bx-right-arrow-alt"></i>Ver Reportes</a>
+						</li>
+						<li> <a href="app-chat-box.html"><i class="bx bx-right-arrow-alt"></i>Ver Publicaciones</a>
+						</li>
+					</ul>
+				</li> -->
+				<li class="menu-label">Opciones</li>
+				<li>
+					<a id="logout" href="javascript:;">
+						<div class="parent-icon"><i class='bx bx-cookie'></i>
+						</div>
+						<div class="menu-title">Cerrar Sección</div>
+					</a>
+				</li>
+			</ul>
+			<!--end navigation-->
+		</div>
+		<!--end sidebar wrapper -->
+		<!--start header -->
+		<header>
+			<div class="topbar d-flex align-items-center">
+				<nav class="navbar navbar-expand">
+					<div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
+					</div>
+					<div class="search-bar flex-grow-1">
+						<div class="position-relative">
+							<h3>Administrador</h3>
+						</div>
+					</div>
+					<div class="user-box dropdown">
+						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
+							role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<img src="assets/images/avatars/avatar-2.png" class="user-img userPhoto" alt="user avatar">
+							<div class="user-info ps-3">
+								<p id="usuario1" class="user-name mb-0">User</p>
+								<p id="correoUsuario" class="designattion mb-0">Correo</p>
+							</div>
+						</a>
+						
+					</div>
+				</nav>
+			</div>
+		</header>
+		<!--end header -->
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+				<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
+					<div class="col">
+						<div id="customCard" style="background: #dcfce7;" class="card radius-10 p-2">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div>
+										<p style="color: #141e2c; font-size: 20px; font-weight: 800;" href=""
+											class="txt-card-custom mb-0">Ver Reportes</p>
+										<a style="color: #141e2c !important;" href="./reportes.html" id="mostrarFormulario1"
+											class="text-blue-500 hover:underline">Click
+											aqui</a>
+										<br>
+									</div>
+									<div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
+										<i class="fa-solid fa-image"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div id="customCard" style="background: #fef9c3;" class="card radius-10 p-2">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div>
+										<p style="color: #141e2c ; font-size: 20px; font-weight: 800;" href=""
+											class="txt-card-custom mb-0">Ver Publicaciones</p>
+										<a style="color: #141e2c !important;" href="./publicaciones.html" id="mostrarFormulario2"
+											class="text-blue-500 hover:underline">Click aqui</a>
+										<br>
+									</div>
+									<div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
+										<i class="fa-solid fa-video"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col">
+						<div id="customCard" style="background: #84c3f7;" class="card radius-10 p-2">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div>
+										<p style="color: #141e2c ; font-size: 20px; font-weight: 800;" href=""
+											class="txt-card-custom mb-0">Ver Historial</p>
+										<a style="color: #141e2c !important;" href="./historial.html" id="mostrarFormulario2"
+											class="text-blue-500 hover:underline">Click aqui</a>
+										<br>
+									</div>
+									<div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
+										<i class="fa-solid fa-video"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<!--end row-->
+
+				<div class="row">
+					<div class="col-12 col-lg-8">
+						<div class="card radius-10">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div>
+										<h6 class="mb-0">Reportes por mes</h6>
+									</div>
+								</div>
+								<br>
+								<div class="chart-container-1">
+									<canvas id="graficoVideosImagenesPorMes" ></canvas>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+					<div class="col-12 col-lg-4">
+						<div class="card radius-10">
+							<div class="card-body">
+								<div class="d-flex align-items-center">
+									<div>
+										<h6 class="mb-0">Cantidad</h6>
+									</div>
+									
+								</div>
+								<div class="chart-container-2  d-flex justify-content-center mt-4">
+									<canvas  id="graficoAnillosVideosImagenesTotales"></canvas>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<!--end row-->
+			</div>
+		</div>
+		<!--end page wrapper -->
+		<!--start overlay-->
+		<div class="overlay toggle-icon"></div>
+		<!--end overlay-->
+		<!--Start Back To Top Button-->
+		<a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+		<!--End Back To Top Button-->
+		<footer class="page-footer">
+			<p class="mb-0">Copyright © 2021. All right reserved.</p>
+		</footer>
+	</div>
+	<!--end wrapper-->
+	
+
+	<div style="border-radius: 12px;" class="p-4 d-none">
+		<div class="row row-cols-1 row-cols-md-2 row-cols-xl-1 justify-content-center">
+			<div id="lista-de-datos" class="col-12 col-md-6 col-xl-6">
+				<!-- Los elementos "li" se agregarán aquí -->
+				<li class="list-group-item">
+					<div class="form-group mt-4">
+						<label for="tipoFiltro">Filtrar por tipo:</label>
+						<select id="tipoFiltro" class="form-control" onchange="aplicarFiltros()">
+							<option value="todos">Todos</option>
+							<option value="imagen">Imágenes</option>
+							<option value="video">Videos</option>
+						</select>
+					</div>
+
+					<div class="form-group mt-2">
+						<input type="text" id="cedulaBusqueda" class="form-control"
+							placeholder="Buscar por Cédula" oninput="aplicarFiltros()">
+					</div>
+					
+					<div class="form-group mt-2">
+						<label for="fechaLimite">Filtrar por fecha:</label>
+						<input type="date" id="fechaLimite" class="form-control" oninput="aplicarFiltros()">
+					</div>
+				</li>
+
+				<li class="list-group-item" id="loading-message" style="display: none;">
+					<p class="text-center">Cargando contenido...</p>
+				</li>
+
+				<li class="list-group-item" id="loading-bar-container" style="display: none;">
+					<div class="progress">
+						<div class="progress-bar" id="loading-bar" role="progressbar" style="width: 0%"
+							aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+				</li>
+
+				<li class="list-group-item" id="mensajeSinResultados" style="display: none;">
+					<p>No se encontraron resultados.</p>
+				</li>
+				<div class="mostrarvideo">
+					<br>
+					<div id="lista-de-datos-video" class="card-list">
+						<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3">
+						</div>
+						<!-- Los elementos "li" se agregarán aquí -->
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="mostrartexto d-none">
+		<br>
+		<ul id="lista-de-datos-texto" class="card-list">
+
+			<!-- Los elementos "li" se agregarán aquí -->
+		</ul>
+	</div>
+
+
+	<div class="col-md-12 d-none">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Publicar tu reporte</h5>
+				<br>
+				<form method="POST" enctype="multipart/form-data">
+					<h5 style="color: #141e2c; font-weight: bold;">Sube una imagen para enviar tu
+						reporte.
+					</h5>
+					<p class="text-dark">Seleccione un archivo para cargarlo desde su computadora o
+						dispositivo.</p>
+					<input type="file" class="form-control" id="imagen" name="imagen" accept="image/*" multiple required>
+
+					<!-- Agrega los nuevos campos de cédula y número de teléfono -->
+					<input placeholder="¡Escribenos aquí!" type="text" class="form-control mt-3"
+						id="descripcion" name="descripcion" required>
+
+					<input placeholder="Número de cédula" type="text" class="form-control mt-3" id="cedula"
+						name="cedula" required>
+					<input placeholder="Número de teléfono" type="text" class="form-control mt-3"
+						id="telefono" name="telefono" required>
+
+					<button type="submit" class="btn boton mt-3">Publicar Imagen</button>
+				</form>
+
+				<div class="mt-4"></div> <!-- Separación entre los formularios -->
+
+				<form id="video" action="" method="POST" enctype="multipart/form-data">
+					<h5 style="color: #141e2c; font-weight: bold;">Sube un video para enviar tu reporte.
+					</h5>
+					<p class="text-dark">Seleccione un archivo para cargarlo desde su computadora o
+						dispositivo.</p>
+					<input type="file" class="form-control mt-3" id="videoFile" name="video"
+						accept="video/*" required>
+					<input placeholder="¡Escribenos aqui!" type="text" class="form-control mt-3"
+						id="descripcion-video" name="descripcion" required>
+
+					<!-- Nuevo: Campo para la cedula -->
+					<input placeholder="Cedula" type="text" class="form-control mt-3" id="cedula_video"
+						name="cedula" required>
+
+					<!-- Nuevo: Campo para el numero de telefono -->
+					<input placeholder="Numero de Telefono" type="text" class="form-control mt-3"
+						id="telefono_video" name="telefono" required>
+					<button type="submit" class="btn boton mt-3">Publicar Video</button>
+				</form>
+				<div class="mt-4"></div> <!-- Separación entre los formularios -->
+				<form id="texto-form" action="" method="POST">
+					<div class="form-group">
+						<label for="texto">Escribe tu mensaje:</label>
+						<input type="text" class="form-control" id="texto" name="texto">
+					</div>
+					<!-- Nuevo: Campo para la cedula -->
+					<div class="form-group">
+						<label for="cedula">Cédula:</label>
+						<input type="text" class="form-control" id="cedula_texto" name="cedula">
+					</div>
+					<!-- Nuevo: Campo para el número de teléfono -->
+					<div class="form-group">
+						<label for="telefono">Número de Teléfono:</label>
+						<input type="text" class="form-control" id="telefono_texto" name="telefono">
+					</div>
+					<button type="submit" class="btn btn-primary">Publicar Texto</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<!--end switcher-->
+	<!-- Bootstrap JS -->
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<!--plugins-->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
+	<script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
+	<script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+	<script src="assets/plugins/chartjs/js/Chart.min.js"></script>
+	<script src="assets/plugins/chartjs/js/Chart.extension.js"></script>
+	<script src="assets/js/index.js"></script>
+	<!--app JS-->
+	<script src="assets/js/app.js"></script>
+	<script type="module" src="../config/configadmin.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+
+</html>
+
